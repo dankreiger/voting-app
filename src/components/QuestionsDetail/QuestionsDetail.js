@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { connect } from 'react-redux';
-import { arrayOf, bool, shape, string } from 'prop-types';
+import { arrayOf, bool, func, shape, string } from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Question } from 'typings/Question.proptypes';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
@@ -13,20 +13,44 @@ import {
 } from './QuestionsDetail.styles';
 import QuizDetailChoice from 'components/QuizDetailChoice/QuizDetailChoice';
 import shortid from 'shortid';
+import * as actions from 'actions';
 
-const QuestionsDetail = ({ match, questions }) => {
+const QuestionsDetail = ({
+  cacheCurrentQuestion,
+  cachedQuestions,
+  match,
+  questions
+}) => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [cacheChecked, setCacheChecked] = useState(false);
 
-  /* if data were large, I'd memoize this and cache the result */
-  const getCurrentQuestion = () => {
-    setCurrentQuestion(questions.find(question => question.url === match.url));
-  };
+  const getCurrentQuestion = useCallback(() => {
+    console.log('Only executes on an unvisited route');
+    const result = questions.find(question => question.url === match.url);
+    cacheCurrentQuestion(result);
+    setCurrentQuestion(result);
+  }, [cacheCurrentQuestion, setCurrentQuestion, questions, match]);
+
+  /* look for cached question */
   useEffect(() => {
-    getCurrentQuestion();
-  });
+    /* use O(1) dictionary find instead of O(n) iteration to look for cached question */
+    const cachedQuestion = cachedQuestions[match.url];
+    if (!currentQuestion && cachedQuestion) {
+      setCurrentQuestion(cachedQuestion);
+    }
+    setCacheChecked(true);
+  }, [cachedQuestions, currentQuestion, match]);
+
+  /* if no cached question exists, find the question */
+  useEffect(() => {
+    const cachedQuestion = cachedQuestions[match.url];
+    if (cacheChecked && !cachedQuestion) {
+      getCurrentQuestion();
+    }
+  }, [cacheChecked, getCurrentQuestion, cachedQuestions, match]);
 
   const renderQuestionsDetail = () => {
-    const { question, choices } = currentQuestion;
+    const { question, choices } = cachedQuestions[match.url];
     const totalVotes = choices.reduce((acc, cur) => acc + cur.votes, 0);
     return (
       <>
@@ -61,6 +85,10 @@ const QuestionsDetail = ({ match, questions }) => {
 };
 
 QuestionsDetail.propTypes = {
+  cachedQuestions: shape({
+    [string]: Question
+  }),
+  cacheCurrentQuestion: func,
   match: shape({
     isExact: bool,
     params: shape({ questionId: string }),
@@ -71,10 +99,11 @@ QuestionsDetail.propTypes = {
 };
 
 const mapStateToProps = ({ questionsReducer }) => ({
+  cachedQuestions: questionsReducer.cachedQuestions,
   questions: questionsReducer.questions
 });
 
 export default connect(
   mapStateToProps,
-  null
+  actions
 )(QuestionsDetail);

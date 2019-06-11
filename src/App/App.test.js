@@ -1,8 +1,6 @@
 import React from 'react';
 import App from './App';
 
-jest.mock('utils/test-services/fetchQuestions');
-
 describe('App', () => {
   let component;
   const fetchQuestions = jest.fn();

@@ -1,4 +1,5 @@
 import {
+  CACHE_CURRENT_QUESTION,
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE
@@ -21,6 +22,7 @@ import {
  * @property {string} published_at
  * @property {string} question
  * @property {Choice[]} choices
+ * @property {Object} cachedQuestions
  */
 
 /**
@@ -50,7 +52,8 @@ import {
 export const questionsReducerInitialState = {
   questions: [],
   loading: false,
-  error: null
+  error: null,
+  cachedQuestions: {}
 };
 
 /**
@@ -75,7 +78,6 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
         loading: false,
         questions: payload.questions
       };
-
     case FETCH_QUESTIONS_FAILURE:
       return {
         ...state,
@@ -83,6 +85,21 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
         error: payload.error,
         questions: []
       };
+    case CACHE_CURRENT_QUESTION:
+      const url = payload.currentQuestion && payload.currentQuestion.url;
+      if (url) {
+        return {
+          ...state,
+          cachedQuestions: {
+            ...state.cachedQuestions,
+            [url]: payload.currentQuestion
+          }
+        };
+      } else {
+        return {
+          ...state
+        };
+      }
     default:
       return state;
   }

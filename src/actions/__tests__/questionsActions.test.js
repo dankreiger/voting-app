@@ -1,18 +1,30 @@
 import moxios from 'moxios';
 import { dummyQuestions } from 'utils/test-services/dummyQuestions';
 import {
+  cacheCurrentQuestion,
   fetchQuestions,
   fetchQuestionsBegin,
   fetchQuestionsSuccess,
   fetchQuestionsFailure
 } from '../questionsActions';
 import {
+  CACHE_CURRENT_QUESTION,
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_FAILURE,
   FETCH_QUESTIONS_SUCCESS
 } from 'constants/index';
 
-jest.mock('utils/test-services/fetchQuestions');
+describe('cacheCurrentQuestion', () => {
+  const action = cacheCurrentQuestion(dummyQuestions[0]);
+
+  it('has the correct type', () => {
+    expect(action.type).toEqual(CACHE_CURRENT_QUESTION);
+  });
+
+  it('has the correct payload', () => {
+    expect(action.payload).toEqual({ currentQuestion: dummyQuestions[0] });
+  });
+});
 
 describe('fetchQuestionsBegin', () => {
   const action = fetchQuestionsBegin();
