@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - 'stable'
+cache:
+  directories:
+    - node_modules
+script:
+  - npm test
+  - npm run build
+deploy:
+  provider: surge
+  skip_cleanup: true
+  domain: lieblingsrestaurant.surge.sh
+  project: ./build/
+after_success:
+  - surge --project ./build --domain lieblingsrestaurant.surge.sh
+on:
+  branch: master
