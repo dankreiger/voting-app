@@ -19,6 +19,8 @@ export const QuestionsDetailChoiceContainer = styled.div`
   justify-items: center;
   align-items: center;
   background: ${teal};
+  min-height: 90px;
+  box-sizing: border-box;
   ${media.smQuery` 
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
@@ -44,6 +46,7 @@ export const QuestionDetailChoiceVotesBarContainer = styled(
   QuestionDetailChoiceVotesBar
 )`
   height: 10px;
+  margin-top: 10px;
 `;
 export const QuestionDetailChoiceVotesBarInner = styled(
   QuestionDetailChoiceVotesBar

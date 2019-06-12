@@ -8,5 +8,7 @@ export const QuestionsDetailListHeadersContainer = styled(
 )`
   ${media.smQuery` 
     background: ${lightTeal};
+    min-height: 70px;
+    box-sizing: border-box;
   `}
 `;
