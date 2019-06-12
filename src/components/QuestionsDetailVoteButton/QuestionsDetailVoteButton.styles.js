@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { lightGray, white, gray } from 'utils/style/colors';
+import { buttonStyle } from 'utils/style/genericComponents';
 
 export const QuestionsDetailVoteButtonContainer = styled.div`
   display: flex;
@@ -8,28 +9,22 @@ export const QuestionsDetailVoteButtonContainer = styled.div`
   height: 50px;
   width: 80%;
   margin: 0 auto;
+  &:focus {
+    outline: none;
+  }
   button {
-    flex-grow: 1;
+    ${buttonStyle};
     background-color: ${lightGray};
     font-size: 16px;
-    border-radius: 2px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-    height: 100%;
     transition: background-color 250ms, box-shadow 250ms;
-    border: none;
-    cursor: pointer;
     animation: fadeIn 250ms;
-    ${({ buttonFadingOut }) => buttonFadingOut && `animation: fadeOut 250ms;`}
+    ${({ buttonFadingOut }) =>
+      buttonFadingOut && `animation: fadeOut 250ms; pointer-events: none;`}
     &:hover {
       background-color: ${white};
     }
     &:active {
       background-color: ${gray};
-      box-shadow: none;
-      outline: 0;
-    }
-    &:focus {
-      outline: 0;
     }
   }
 

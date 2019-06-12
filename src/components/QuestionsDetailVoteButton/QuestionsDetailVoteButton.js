@@ -6,12 +6,11 @@ import { createVotingPostUrl } from 'utils/http/api';
 import axios from 'axios';
 
 const QuestionsDetailVoteButton = ({
-  setCurrentVotes,
   questionId,
   choiceId,
   refreshPageDetails
 }) => {
-  const [postInProgress, setPostInProgress] = useState(false);
+  const [requestInProgress, setRequestInProgress] = useState(false);
   const [buttonFadingOut, setButtonFadingOut] = useState(false);
   const preparePostVote = async () => {
     setButtonFadingOut(true);
@@ -23,20 +22,22 @@ const QuestionsDetailVoteButton = ({
   const executePostVote = async () => {
     const postUrl = createVotingPostUrl(questionId, choiceId);
     try {
-      setPostInProgress(true);
+      setRequestInProgress(true);
       const res = await axios.post(postUrl);
-      const { votes } = await res.data;
-      setCurrentVotes(votes);
-      refreshPageDetails();
+      await res.data;
+      refreshPageDetails()
+        .then(res => {
+          setRequestInProgress(false);
+        })
+        .catch(err => console.log('error on refresh', err));
     } catch (err) {
       console.error(err);
     } finally {
-      setPostInProgress(false);
     }
   };
   return (
     <QuestionsDetailVoteButtonContainer buttonFadingOut={buttonFadingOut}>
-      {postInProgress ? (
+      {requestInProgress ? (
         <LoadingSpinner variation="rect" />
       ) : (
         <button onClick={preparePostVote}>Vote</button>
@@ -47,7 +48,6 @@ const QuestionsDetailVoteButton = ({
 
 QuestionsDetailVoteButton.propTypes = {
   choiceId: string,
-  setCurrentVotes: func,
   questionId: string,
   refreshPageDetails: func
 };

@@ -37,6 +37,7 @@ export const QuestionDetailChoiceCol = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 `;
 
 export const QuestionDetailChoiceVotesBarContainer = styled(

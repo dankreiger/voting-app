@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { func, number, string } from 'prop-types';
 import { Choice } from 'typings/Choice.proptypes';
 import {
@@ -22,10 +22,8 @@ const QuestionsDetailChoice = ({
   refreshPageDetails
 }) => {
   const { choice, votes, url } = choiceItem;
-  const [currentVotes, setCurrentVotes] = useState(votes);
 
-  const percentOfTotal =
-    Math.round((currentVotes / totalVotes) * 100000) / 1000 || 0;
+  const percentOfTotal = Math.round((votes / totalVotes) * 100000) / 1000 || 0;
   const splitUrl = url.split('/');
   const choiceId = splitUrl[splitUrl.length - 1];
   const isMobile = windowWidth < sizes.smQuery;
@@ -33,7 +31,7 @@ const QuestionsDetailChoice = ({
   const renderDetailTable = () => (
     <QuestionsDetailChoiceContainer>
       <QuestionDetailChoiceCol>{choice}</QuestionDetailChoiceCol>
-      <QuestionDetailChoiceCol>{currentVotes}</QuestionDetailChoiceCol>
+      <QuestionDetailChoiceCol>{votes}</QuestionDetailChoiceCol>
       <QuestionDetailChoiceCol>
         <QuestionDetailChoiceVotesBarContainer>
           <QuestionDetailChoiceVotesBarInner
@@ -46,7 +44,6 @@ const QuestionsDetailChoice = ({
       </QuestionDetailChoiceCol>
       {!isMobile && (
         <QuestionsDetailVoteButton
-          setCurrentVotes={setCurrentVotes}
           choiceId={choiceId}
           questionId={questionId}
           refreshPageDetails={refreshPageDetails}
@@ -62,7 +59,6 @@ const QuestionsDetailChoice = ({
           {renderDetailTable()}
         </QuestionsDetailChoiceMobileGrid>
         <QuestionsDetailVoteButton
-          setCurrentVotes={setCurrentVotes}
           choiceId={choiceId}
           questionId={questionId}
         />

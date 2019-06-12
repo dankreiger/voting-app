@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { lightTeal, teal } from 'utils/style/colors';
+import { darkPink, pink } from 'utils/style/colors';
 
 export const NewQuestionFormInputGroupContainer = styled.div`
   width: 100%;
@@ -10,9 +10,10 @@ export const NewQuestionFormInputGroupContainer = styled.div`
   margin-bottom: 40px;
 `;
 
+/* normally would set this in a component library with tidier styles */
 export const NewQuestionFormInputField = styled.input`
   background: none;
-  color: ${teal};
+  color: ${({ activeColor, invalid }) => (invalid ? darkPink : activeColor)};
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
@@ -21,14 +22,15 @@ export const NewQuestionFormInputField = styled.input`
   width: 100%;
   max-width: 800px;
   border-radius: 0;
-  border-bottom: 1px solid ${lightTeal};
+  border-bottom: ${({ color, invalid }) =>
+    `1px solid ${invalid ? pink : color}`};
   &:focus {
     outline: none;
   }
   &:focus ~ label,
   &:valid ~ label {
     font-size: 12px;
-    color: ${teal};
+    color: ${({ activeColor, invalid }) => (invalid ? darkPink : activeColor)};
   }
   &:focus ~ .bar:before {
     width: 100%;
@@ -48,7 +50,8 @@ export const NewQuestionFormInputBar = styled.span`
     width: 0;
     bottom: 0px;
     position: absolute;
-    background: ${teal};
+    background: ${({ activeColor, invalid }) =>
+      invalid ? darkPink : activeColor};
     transition: 250ms ease all;
     left: 0%;
   }
@@ -57,7 +60,6 @@ export const NewQuestionFormInputLabel = styled.label`
   font-size: 16px;
   font-weight: normal;
   pointer-events: none;
-  color: ${lightTeal};
   transition: 250ms ease all;
   margin-top: 10px;
 `;

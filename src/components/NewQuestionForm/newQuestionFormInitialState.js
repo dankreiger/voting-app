@@ -1,6 +1,6 @@
 export const newQuestionFormInitialState = {
   question: '',
-  choiceFieldCount: 0,
+  choiceFieldCount: 2,
   userChoices: {
     choice0: '',
     choice1: '',
@@ -14,5 +14,8 @@ export const newQuestionFormInitialState = {
     choice9: '',
     choice10: ''
   },
-  questionSubmitted: false
+  questionSubmitted: false,
+  invalid: false,
+  errorAnimation: false,
+  submissionInProgress: false
 };

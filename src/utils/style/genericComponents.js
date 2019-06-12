@@ -30,6 +30,7 @@ height: 50px;
 background: ${gray};
 width: 100%;
 color: #000;
+cursor: pointer;
 transition: box-shadow 250ms, background-color 250ms;
 &:hover {
   background: ${lightGray};
@@ -37,6 +38,9 @@ transition: box-shadow 250ms, background-color 250ms;
 &:active {
   box-shadow: none;
   background: ${white};
+}
+&:focus {
+  outline: none;
 }
 ${media.smQuery`
   width: 50%;
