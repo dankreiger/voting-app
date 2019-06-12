@@ -1,5 +1,4 @@
 import {
-  CACHE_CURRENT_QUESTION,
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE
@@ -8,7 +7,7 @@ import {
 /* Choice.proptypes.js */
 /**
  * @typedef Question
- * @type {object}
+ * @type {Object}
  * @property {string} url
  * @property {string} votes
  * @property {string} choice
@@ -17,12 +16,11 @@ import {
 /* Question.proptypes.js */
 /**
  * @typedef Question
- * @type {object}
+ * @type {Object}
  * @property {string} url
  * @property {string} published_at
  * @property {string} question
  * @property {Choice[]} choices
- * @property {Object} cachedQuestions
  */
 
 /**
@@ -52,8 +50,7 @@ import {
 export const questionsReducerInitialState = {
   questions: [],
   loading: false,
-  error: null,
-  cachedQuestions: {}
+  error: null
 };
 
 /**
@@ -73,10 +70,15 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
       };
 
     case FETCH_QUESTIONS_SUCCESS:
+      const questionDictionary = {};
+      payload.questions.forEach(question => {
+        questionDictionary[question.url] = question;
+      });
       return {
         ...state,
         loading: false,
-        questions: payload.questions
+        questions: payload.questions,
+        questionDictionary
       };
     case FETCH_QUESTIONS_FAILURE:
       return {
@@ -85,21 +87,6 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
         error: payload.error,
         questions: []
       };
-    case CACHE_CURRENT_QUESTION:
-      const url = payload.currentQuestion && payload.currentQuestion.url;
-      if (url) {
-        return {
-          ...state,
-          cachedQuestions: {
-            ...state.cachedQuestions,
-            [url]: payload.currentQuestion
-          }
-        };
-      } else {
-        return {
-          ...state
-        };
-      }
     default:
       return state;
   }

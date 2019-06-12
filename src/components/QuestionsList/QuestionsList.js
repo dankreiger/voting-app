@@ -6,16 +6,21 @@ import * as actions from 'actions';
 import { Question } from 'typings/Question.proptypes';
 import {
   QuestionsListContainer,
-  QuestionsListHeadline,
   QuestionsListGrid
 } from './QuestionsList.styles';
 import QuestionCard from 'components/QuestionCard/QuestionCard';
+import QuestionsHeaderRow from 'components/QuestionsHeaderRow/QuestionsHeaderRow';
 
 const QuestionsList = ({ questions }) => {
   return (
     questions.length > 0 && (
       <QuestionsListContainer>
-        <QuestionsListHeadline>Questions</QuestionsListHeadline>
+        <QuestionsHeaderRow
+          headlineText="Questions"
+          buttonText="Add a new question"
+          buttonLink="/new-question"
+        />
+
         <QuestionsListGrid>
           {questions.map(questionItem => (
             <QuestionCard

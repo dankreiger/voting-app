@@ -1,17 +1,31 @@
 import React from 'react';
-import { StyledSpinner } from './LoadingSpinner.styles';
+import { RotatingSpinner, RectSpinner } from './LoadingSpinner.styles';
 
-export const LoadingSpinner = () => (
-  <StyledSpinner>
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-    <div />
-  </StyledSpinner>
-);
+export const LoadingSpinner = ({ variation }) => {
+  if (variation === 'rect') {
+    return (
+      <RectSpinner>
+        <div className="rect1"></div>
+        <div className="rect2"></div>
+        <div className="rect3"></div>
+        <div className="rect4"></div>
+        <div className="rect5"></div>
+      </RectSpinner>
+    );
+  } else {
+    return (
+      <RotatingSpinner>
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+        <div />
+      </RotatingSpinner>
+    );
+  }
+};
 
 export default LoadingSpinner;

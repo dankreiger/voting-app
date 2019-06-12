@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { LoadingSpinner } from './LoadingSpinner';
-import { StyledSpinner } from './LoadingSpinner.styles';
+import { RotatingSpinner } from './LoadingSpinner.styles';
 
 describe('LoadingSpinner', () => {
   let component;
@@ -18,8 +18,8 @@ describe('LoadingSpinner', () => {
   });
 
   describe('structure', () => {
-    test('has a StyledSpinner', () => {
-      expect(component.find(StyledSpinner).length).toBe(1);
+    test('has a RotatingSpinner', () => {
+      expect(component.find(RotatingSpinner).length).toBe(1);
     });
     test('has 8 divs', () => {
       expect(component.find('div').length).toBe(8);

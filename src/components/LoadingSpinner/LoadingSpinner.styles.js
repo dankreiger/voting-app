@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledSpinner = styled.div`
+export const RotatingSpinner = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
@@ -84,6 +84,51 @@ export const StyledSpinner = styled.div`
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+`;
+
+export const RectSpinner = styled.div`
+  height: 50px;
+  width: 50px;
+  text-align: center;
+  font-size: 10px;
+
+  > div {
+    background-color: #fff;
+    height: 100%;
+    width: 7px;
+    margin: 0 3px 0 0;
+    display: inline-block;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+  }
+
+  .rect2 {
+    animation-delay: -1.1s;
+  }
+
+  .rect3 {
+    animation-delay: -1s;
+  }
+
+  .rect4 {
+    animation-delay: -0.9s;
+  }
+
+  .rect5 {
+    animation-delay: -0.8s;
+  }
+
+  @keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+      transform: scaleY(0.4);
+      -webkit-transform: scaleY(0.4);
+    }
+    20% {
+      transform: scaleY(1);
+      -webkit-transform: scaleY(1);
     }
   }
 `;

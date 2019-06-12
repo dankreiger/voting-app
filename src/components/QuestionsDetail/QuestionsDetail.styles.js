@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { media } from 'utils/style/style-utils';
-import { teal } from 'utils/style/colors';
 
 export const QuestionsDetailContainer = styled.div`
   width: 100%;
@@ -8,29 +7,31 @@ export const QuestionsDetailContainer = styled.div`
   flex-direction: column;
 `;
 
-export const QuestionDetailHeader = styled.h1`
-  margin-bottom: 20px;
-`;
-
 export const QuestionDetailCurrentQuestion = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  span:last-child {
+    font-size: 32px;
+    text-align: center;
+  }
+  ${media.smQuery`
+    flex-direction: row;
+    span {
+    &:first-child{
+      padding-right: 10px;
+    }
+    &:last-child {
+      font-size: 32px;
+      padding-left: 10px;
+      }
+    }    
+  `}
 `;
 
 export const QuestionsDetailList = styled.div`
   flex-grow: 1;
-`;
-
-export const QuestionsDetailListHeaders = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 10px;
-  padding: 20px;
-  background: ${teal};
-  filter: opacity(0.8);
-  font-weight: bold;
-  color: #fff;
-  ${media.smQuery` 
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 20px;
-    `}
+  font-size: 18px;
 `;

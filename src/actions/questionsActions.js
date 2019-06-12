@@ -1,17 +1,16 @@
 import axios from 'axios';
 import {
-  CACHE_CURRENT_QUESTION,
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE
 } from 'constants/index';
-import { baseApiUrl } from 'utils/http/api';
+import { apiQuestionsBase } from 'utils/http/api';
 
 export function fetchQuestions() {
   return async dispatch => {
     dispatch(fetchQuestionsBegin());
     try {
-      const response = await axios.get(baseApiUrl);
+      const response = await axios.get(apiQuestionsBase);
       const data = await response.data;
       return dispatch(fetchQuestionsSuccess(data));
     } catch (err) {
@@ -35,12 +34,5 @@ export const fetchQuestionsFailure = error => ({
   type: FETCH_QUESTIONS_FAILURE,
   payload: {
     error
-  }
-});
-
-export const cacheCurrentQuestion = currentQuestion => ({
-  type: CACHE_CURRENT_QUESTION,
-  payload: {
-    currentQuestion
   }
 });

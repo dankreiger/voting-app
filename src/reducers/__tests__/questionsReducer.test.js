@@ -8,7 +8,10 @@ import {
   fetchQuestionsFailure
 } from 'actions/index';
 
-import { dummyQuestions } from 'utils/test-services/dummyQuestions';
+import {
+  dummyQuestions,
+  dummyQuestionDictionary
+} from 'utils/test-services/dummyQuestions';
 
 describe('questionsReducer', () => {
   let initialState;
@@ -50,7 +53,8 @@ describe('questionsReducer', () => {
       expect(newState).toEqual({
         ...initialState,
         loading: false,
-        questions: dummyQuestions
+        questions: dummyQuestions,
+        questionDictionary: dummyQuestionDictionary
       });
     });
   });

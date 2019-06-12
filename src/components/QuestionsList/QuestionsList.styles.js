@@ -3,11 +3,6 @@ import { media } from 'utils/style/style-utils';
 
 export const QuestionsListContainer = styled.div``;
 
-export const QuestionsListHeadline = styled.h1`
-  margin-bottom: 40px;
-  font-weight: 300;
-`;
-
 export const QuestionsListGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;

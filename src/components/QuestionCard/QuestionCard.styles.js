@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { cardStyle } from 'utils/style/style-utils';
+import { cardStyle } from 'utils/style/genericComponents';
 
 export const QuestionCardContainer = styled(Link)`
   display: block;
