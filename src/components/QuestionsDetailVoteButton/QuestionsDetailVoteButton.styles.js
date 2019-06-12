@@ -10,7 +10,7 @@ export const QuestionsDetailVoteButtonContainer = styled.div`
   width: 80%;
   margin: 0 auto;
   &:focus {
-    outline: none;
+    outline: 0;
   }
 
   @keyframes fadeIn {

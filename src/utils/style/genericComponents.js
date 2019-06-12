@@ -40,7 +40,7 @@ transition: box-shadow 250ms, background-color 250ms;
   background: ${white};
 }
 &:focus {
-  outline: none;
+  outline: 0;
 }
 ${media.smQuery`
   width: 50%;

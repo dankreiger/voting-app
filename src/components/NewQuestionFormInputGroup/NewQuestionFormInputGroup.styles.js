@@ -25,7 +25,7 @@ export const NewQuestionFormInputField = styled.input`
   border-bottom: ${({ color, invalid }) =>
     `1px solid ${invalid ? pink : color}`};
   &:focus {
-    outline: none;
+    outline: 0;
   }
   &:focus ~ label,
   &:valid ~ label {
