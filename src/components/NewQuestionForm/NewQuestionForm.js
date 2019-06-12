@@ -57,7 +57,6 @@ class NewQuestionForm extends Component {
   };
 
   handleQuestionInputChange = ({ target }) => {
-    console.log(target.value);
     this.setState({ invalid: false });
     this.setState({ question: target.value });
   };

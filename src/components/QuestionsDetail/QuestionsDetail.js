@@ -44,7 +44,6 @@ const QuestionsDetail = ({ match, questionDictionary }) => {
       try {
         const response = await axios.get(`${apiQuestionsBase}/${questionId}`);
         const data = await response.data;
-        console.log('refreshed', data);
         setCurrentQuestion(data);
       } catch (err) {
         console.log('error with refresh', err);
