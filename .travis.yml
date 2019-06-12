@@ -13,6 +13,6 @@ deploy:
   domain: lieblingsrestaurant.surge.sh
   project: ./build/
 after_success:
-  - surge --project ./build --domain lieblingsrestaurant.surge.sh
+  - surge --project ./build --domain voting-app-123.surge.sh
 on:
   branch: master
