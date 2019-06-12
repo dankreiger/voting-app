@@ -54,6 +54,7 @@ export const QuestionDetailChoiceVotesBarInner = styled(
 `;
 
 export const QuestionDetailChoiceVotesPercent = styled.div`
+  margin-top: 10px;
   font-size: 12px;
 `;
 

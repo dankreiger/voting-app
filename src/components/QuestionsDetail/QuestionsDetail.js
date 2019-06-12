@@ -4,8 +4,6 @@ import { bool, shape, string } from 'prop-types';
 import shortid from 'shortid';
 import { Question } from 'typings/Question.proptypes';
 import * as actions from 'actions';
-import axios from 'axios';
-import { apiQuestionsBase } from 'utils/http/api';
 import {
   QuestionsDetailContainer,
   QuestionsDetailList,
@@ -40,15 +38,6 @@ const QuestionsDetail = ({ match, questionDictionary }) => {
     const { questionId } = match.params;
     const totalVotes = choices.reduce((acc, cur) => acc + cur.votes, 0);
 
-    const refreshPageDetails = async () => {
-      try {
-        const response = await axios.get(`${apiQuestionsBase}/${questionId}`);
-        const data = await response.data;
-        setCurrentQuestion(data);
-      } catch (err) {
-        console.log('error with refresh', err);
-      }
-    };
     return (
       <>
         <QuestionsHeaderRow
@@ -68,7 +57,6 @@ const QuestionsDetail = ({ match, questionDictionary }) => {
               choiceItem={choiceItem}
               totalVotes={totalVotes}
               questionId={questionId}
-              refreshPageDetails={refreshPageDetails}
             />
           ))}
         </QuestionsDetailList>
@@ -95,7 +83,7 @@ QuestionsDetail.propTypes = {
   })
 };
 
-const mapStateToProps = ({ questionsReducer }) => ({
+const mapStateToProps = ({ questionsReducer, votesReducer }) => ({
   questionDictionary: questionsReducer.questionDictionary
 });
 

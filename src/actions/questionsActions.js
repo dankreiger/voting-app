@@ -2,7 +2,8 @@ import axios from 'axios';
 import {
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
-  FETCH_QUESTIONS_FAILURE
+  FETCH_QUESTIONS_FAILURE,
+  UPDATE_QUESTION_DICTIONARY
 } from 'constants/index';
 import { apiQuestionsBase } from 'utils/http/api';
 
@@ -34,5 +35,13 @@ export const fetchQuestionsFailure = error => ({
   type: FETCH_QUESTIONS_FAILURE,
   payload: {
     error
+  }
+});
+
+export const updateQuestionDictionary = (questionId, choiceItem) => ({
+  type: UPDATE_QUESTION_DICTIONARY,
+  payload: {
+    questionId,
+    choiceItem
   }
 });

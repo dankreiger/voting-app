@@ -21,11 +21,9 @@ const QuestionsDetailChoice = ({
   questionId,
   refreshPageDetails
 }) => {
-  const { choice, votes, url } = choiceItem;
+  const { choice, votes } = choiceItem;
 
   const percentOfTotal = Math.round((votes / totalVotes) * 100000) / 1000 || 0;
-  const splitUrl = url.split('/');
-  const choiceId = splitUrl[splitUrl.length - 1];
   const isMobile = windowWidth < sizes.smQuery;
 
   const renderDetailTable = () => (
@@ -44,8 +42,8 @@ const QuestionsDetailChoice = ({
       </QuestionDetailChoiceCol>
       {!isMobile && (
         <QuestionsDetailVoteButton
-          choiceId={choiceId}
           questionId={questionId}
+          choiceItem={choiceItem}
           refreshPageDetails={refreshPageDetails}
         />
       )}
@@ -59,8 +57,9 @@ const QuestionsDetailChoice = ({
           {renderDetailTable()}
         </QuestionsDetailChoiceMobileGrid>
         <QuestionsDetailVoteButton
-          choiceId={choiceId}
           questionId={questionId}
+          choiceItem={choiceItem}
+          refreshPageDetails={refreshPageDetails}
         />
       </QuestionsDetailMobileContainer>
     );

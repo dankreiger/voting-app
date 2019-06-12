@@ -1,8 +1,16 @@
 import {
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
-  FETCH_QUESTIONS_FAILURE
+  FETCH_QUESTIONS_FAILURE,
+  UPDATE_QUESTION_DICTIONARY
 } from 'constants/index';
+
+/* QuestionDictionary.proptypes.js */
+/**
+ * @typedef QuestionDictionary
+ * @type {Object}
+ * @property {<string, Question>}
+ */
 
 /* Choice.proptypes.js */
 /**
@@ -45,6 +53,7 @@ import {
  * @property {Question[]} questions
  * @property {bool} loading
  * @property {Error|null} error
+ * @property {QuestionDictionary} questionDictionary
  * @description questionsReducer state
  */
 export const questionsReducerInitialState = {
@@ -70,10 +79,14 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
       };
 
     case FETCH_QUESTIONS_SUCCESS:
-      const questionDictionary = {};
-      payload.questions.forEach(question => {
-        questionDictionary[question.url] = question;
-      });
+      const questionDictionary = state.questionDictionary
+        ? state.questionDictionary
+        : {};
+      if (Object.keys(questionDictionary).length === 0) {
+        payload.questions.forEach(question => {
+          questionDictionary[question.url] = question;
+        });
+      }
       return {
         ...state,
         loading: false,
@@ -86,6 +99,20 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
         loading: false,
         error: payload.error,
         questions: []
+      };
+    case UPDATE_QUESTION_DICTIONARY:
+      const newQuestionDictionary = Object.assign({}, state.questionDictionary);
+      const dictKey = `/questions/${payload.questionId}`;
+      const { votes, url } = payload.choiceItem;
+      newQuestionDictionary[dictKey].choices.forEach(c => {
+        if (c.url === url) {
+          c.votes = votes;
+        }
+      });
+
+      return {
+        ...state,
+        questionDictionary: newQuestionDictionary
       };
     default:
       return state;

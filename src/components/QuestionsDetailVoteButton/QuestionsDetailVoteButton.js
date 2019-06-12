@@ -1,55 +1,98 @@
-import React, { useState } from 'react';
-import { func, string } from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bool, func, number, shape, string } from 'prop-types';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
-import { QuestionsDetailVoteButtonContainer } from './QuestionsDetailVoteButton.styles';
-import { createVotingPostUrl } from 'utils/http/api';
-import axios from 'axios';
+import {
+  QuestionsDetailVoteButtonContainer,
+  QuestionsDetailVoteButtonElement,
+  QuestionsDetailSelectedVote
+} from './QuestionsDetailVoteButton.styles';
+import * as actions from 'actions';
+import { RegisteredVote } from 'typings/RegisteredVote.proptypes';
 
 const QuestionsDetailVoteButton = ({
   questionId,
-  choiceId,
-  refreshPageDetails
+  choiceItem,
+  postVote,
+  choicedIdProcessing,
+  postInProgress,
+  updateQuestionDictionary,
+  registeredVoteDictionary
 }) => {
-  const [requestInProgress, setRequestInProgress] = useState(false);
   const [buttonFadingOut, setButtonFadingOut] = useState(false);
+  const [votingClosed, setVotingClosed] = useState(true);
+
+  const { url } = choiceItem;
+  const splitUrl = url.split('/');
+  const choiceId = splitUrl[splitUrl.length - 1];
+
   const preparePostVote = async () => {
     setButtonFadingOut(true);
     setTimeout(() => {
+      postVote(questionId, choiceId)
+        .then(postedItem => {
+          updateQuestionDictionary(questionId, postedItem.payload.choiceItem);
+        })
+        .catch(err => console.log('error with post', err));
       setButtonFadingOut(false);
-      executePostVote();
     }, 250);
   };
-  const executePostVote = async () => {
-    const postUrl = createVotingPostUrl(questionId, choiceId);
-    try {
-      setRequestInProgress(true);
-      const res = await axios.post(postUrl);
-      await res.data;
-      refreshPageDetails()
-        .then(res => {
-          setRequestInProgress(false);
-        })
-        .catch(err => console.log('error on refresh', err));
-    } catch (err) {
-      console.error(err);
-    } finally {
+
+  useEffect(() => {
+    if (registeredVoteDictionary && registeredVoteDictionary[questionId]) {
+      setVotingClosed(true);
+    } else {
+      setVotingClosed(false);
     }
-  };
+  }, [registeredVoteDictionary, questionId]);
+
+  if (
+    registeredVoteDictionary &&
+    registeredVoteDictionary[questionId] &&
+    registeredVoteDictionary[questionId].url === url
+  ) {
+    return <QuestionsDetailSelectedVote>voted</QuestionsDetailSelectedVote>;
+  }
+  if (votingClosed) {
+    return <></>;
+  }
   return (
-    <QuestionsDetailVoteButtonContainer buttonFadingOut={buttonFadingOut}>
-      {requestInProgress ? (
+    <QuestionsDetailVoteButtonContainer>
+      {postInProgress ? (
         <LoadingSpinner variation="rect" />
       ) : (
-        <button onClick={preparePostVote}>Vote</button>
+        <QuestionsDetailVoteButtonElement
+          buttonFadingOut={buttonFadingOut}
+          onClick={preparePostVote}
+        >
+          Vote {choicedIdProcessing}
+        </QuestionsDetailVoteButtonElement>
       )}
     </QuestionsDetailVoteButtonContainer>
   );
 };
 
 QuestionsDetailVoteButton.propTypes = {
-  choiceId: string,
   questionId: string,
-  refreshPageDetails: func
+  postVote: func,
+  postInProgress: bool,
+  choicedIdProcessing: string,
+  choiceItem: shape({
+    url: string,
+    votes: number,
+    choice: string
+  }),
+  registeredVoteDictionary: shape({
+    [string]: RegisteredVote
+  })
 };
 
-export default QuestionsDetailVoteButton;
+const mapStateToProps = ({ votesReducer }) => ({
+  postInProgress: votesReducer.postInProgress,
+  choicedIdProcessing: votesReducer.choicedIdProcessing,
+  registeredVoteDictionary: votesReducer.registeredVoteDictionary
+});
+export default connect(
+  mapStateToProps,
+  actions
+)(QuestionsDetailVoteButton);
