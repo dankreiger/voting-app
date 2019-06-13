@@ -16,7 +16,7 @@ const QuestionsDetailVoteButton = ({
   postVote,
   choicedIdProcessing,
   postInProgress,
-  updateQuestionDictionary,
+  updateVoteInQuestionDictionary,
   registeredVoteDictionary
 }) => {
   const [buttonFadingOut, setButtonFadingOut] = useState(false);
@@ -31,7 +31,10 @@ const QuestionsDetailVoteButton = ({
     setTimeout(() => {
       postVote(questionId, choiceId)
         .then(postedItem => {
-          updateQuestionDictionary(questionId, postedItem.payload.choiceItem);
+          updateVoteInQuestionDictionary(
+            questionId,
+            postedItem.payload.choiceItem
+          );
         })
         .catch(err => console.log('error with post', err));
       setButtonFadingOut(false);

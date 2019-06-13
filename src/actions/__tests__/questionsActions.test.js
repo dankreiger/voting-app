@@ -1,16 +1,47 @@
 import moxios from 'moxios';
 import { dummyQuestions } from 'utils/test-services/dummyQuestions';
+import { dummyChoiceItem } from 'utils/test-services/dummyChoiceItems';
 import {
   fetchQuestions,
   fetchQuestionsBegin,
   fetchQuestionsSuccess,
-  fetchQuestionsFailure
+  fetchQuestionsFailure,
+  updateQuestionDictionary,
+  updateVoteInQuestionDictionary
 } from '../questionsActions';
 import {
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_FAILURE,
-  FETCH_QUESTIONS_SUCCESS
+  FETCH_QUESTIONS_SUCCESS,
+  UPDATE_QUESTION_DICTIONARY,
+  UPDATE_VOTE_IN_QUESTION_DICTIONARY
 } from 'constants/index';
+
+describe('updateQuestionDictionary', () => {
+  const action = updateQuestionDictionary(dummyQuestions[0]);
+
+  it('has the correct type', () => {
+    expect(action.type).toEqual(UPDATE_QUESTION_DICTIONARY);
+  });
+
+  it('has the correct payload', () => {
+    expect(action.payload).toEqual({ question: dummyQuestions[0] });
+  });
+});
+
+describe('updateVoteInQuestionDictionary', () => {
+  const questionId = '6';
+  const choiceItem = dummyChoiceItem;
+  const action = updateVoteInQuestionDictionary(questionId, dummyChoiceItem);
+
+  it('has the correct type', () => {
+    expect(action.type).toEqual(UPDATE_VOTE_IN_QUESTION_DICTIONARY);
+  });
+
+  it('has the correct payload', () => {
+    expect(action.payload).toEqual({ questionId, choiceItem });
+  });
+});
 
 describe('fetchQuestionsBegin', () => {
   const action = fetchQuestionsBegin();

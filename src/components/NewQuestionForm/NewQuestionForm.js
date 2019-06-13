@@ -40,14 +40,19 @@ class NewQuestionForm extends Component {
 
     const choicesPostData = {
       question,
-      choices
+      choices: choices.reverse() // keep order consistent with user input
     };
 
     this.setState({ submissionInProgress: true }, async () => {
       try {
-        const response = await axios.post(apiQuestionsBase, choicesPostData);
-        const data = await response.data;
+        const questionResponse = await axios.post(
+          apiQuestionsBase,
+          choicesPostData
+        );
+        const data = await questionResponse.data;
         console.log('success', data);
+        this.props.updateQuestionDictionary(data);
+
         this.setState({ submissionInProgress: false, questionSubmitted: true });
       } catch (err) {
         console.log('error', err);
@@ -146,7 +151,8 @@ class NewQuestionForm extends Component {
 }
 
 NewQuestionForm.propTypes = {
-  fetchQuestions: func
+  fetchQuestions: func,
+  updateQuestionDictionary: func
 };
 
 export default connect(

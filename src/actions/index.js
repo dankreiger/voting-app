@@ -6,6 +6,7 @@ export const {
   fetchQuestionsBegin,
   fetchQuestionsSuccess,
   fetchQuestionsFailure,
+  updateVoteInQuestionDictionary,
   updateQuestionDictionary
 } = questionsActions;
 

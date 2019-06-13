@@ -2,6 +2,7 @@ import {
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE,
+  UPDATE_VOTE_IN_QUESTION_DICTIONARY,
   UPDATE_QUESTION_DICTIONARY
 } from 'constants/index';
 
@@ -79,9 +80,7 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
       };
 
     case FETCH_QUESTIONS_SUCCESS:
-      const questionDictionary = state.questionDictionary
-        ? state.questionDictionary
-        : {};
+      const questionDictionary = { ...state.questionDictionary };
       if (Object.keys(questionDictionary).length === 0) {
         payload.questions.forEach(question => {
           questionDictionary[question.url] = question;
@@ -101,18 +100,30 @@ const questionsReducer = (state = questionsReducerInitialState, action) => {
         questions: []
       };
     case UPDATE_QUESTION_DICTIONARY:
-      const newQuestionDictionary = Object.assign({}, state.questionDictionary);
-      const dictKey = `/questions/${payload.questionId}`;
+      const deepStateClone = JSON.parse(JSON.stringify(state));
+      const newQuestionDictionary = { ...deepStateClone.questionDictionary };
+      const dictKey = payload.question.url;
+      newQuestionDictionary[dictKey] = payload.question;
+      return {
+        ...state,
+        questionDictionary: newQuestionDictionary
+      };
+    case UPDATE_VOTE_IN_QUESTION_DICTIONARY:
+      const deepStateClone1 = JSON.parse(JSON.stringify(state));
+      const questionDictionaryWithNewVote = {
+        ...deepStateClone1.questionDictionary
+      };
+      const dictKey1 = `/questions/${payload.questionId}`;
       const { votes, url } = payload.choiceItem;
-      newQuestionDictionary[dictKey].choices.forEach(c => {
+      /* update vote count on small array of choices in dictionary */
+      questionDictionaryWithNewVote[dictKey1].choices.forEach(c => {
         if (c.url === url) {
           c.votes = votes;
         }
       });
-
       return {
         ...state,
-        questionDictionary: newQuestionDictionary
+        questionDictionary: questionDictionaryWithNewVote
       };
     default:
       return state;

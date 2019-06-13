@@ -3,6 +3,7 @@ import {
   FETCH_QUESTIONS_BEGIN,
   FETCH_QUESTIONS_SUCCESS,
   FETCH_QUESTIONS_FAILURE,
+  UPDATE_VOTE_IN_QUESTION_DICTIONARY,
   UPDATE_QUESTION_DICTIONARY
 } from 'constants/index';
 import { apiQuestionsBase } from 'utils/http/api';
@@ -38,10 +39,22 @@ export const fetchQuestionsFailure = error => ({
   }
 });
 
-export const updateQuestionDictionary = (questionId, choiceItem) => ({
-  type: UPDATE_QUESTION_DICTIONARY,
+/**
+ * @description updates question dictionary after user submits vote
+ * @param {string} questionId
+ * @param {Choice} choiceItem
+ */
+export const updateVoteInQuestionDictionary = (questionId, choiceItem) => ({
+  type: UPDATE_VOTE_IN_QUESTION_DICTIONARY,
   payload: {
     questionId,
     choiceItem
+  }
+});
+
+export const updateQuestionDictionary = question => ({
+  type: UPDATE_QUESTION_DICTIONARY,
+  payload: {
+    question
   }
 });
