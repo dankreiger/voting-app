@@ -109,7 +109,7 @@ describe('questionsReducer', () => {
   });
 
   describe('actions of type UPDATE_VOTE_IN_QUESTION_DICTIONARY', () => {
-    it('returns an error message without mutating the original state', () => {
+    it('updates the vote count in an existing question dictionary without mutating the original state', () => {
       const questionId = '5';
       const testChoiceItem = {
         choice: 'Wii U',
