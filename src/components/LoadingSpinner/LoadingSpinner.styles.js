@@ -8,6 +8,7 @@ export const RotatingSpinner = styled.div`
   display: inline-block;
   width: 64px;
   height: 64px;
+  animation: 250ms fadeIn ease 1500ms;
   div {
     animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
     transform-origin: 32px 32px;
@@ -76,14 +77,6 @@ export const RotatingSpinner = styled.div`
         top: 45px;
         left: 10px;
       }
-    }
-  }
-  @keyframes lds-roller {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
     }
   }
 `;

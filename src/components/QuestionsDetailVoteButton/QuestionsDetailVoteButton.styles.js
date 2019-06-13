@@ -12,24 +12,6 @@ export const QuestionsDetailVoteButtonContainer = styled.div`
   &:focus {
     outline: 0;
   }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeOut {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
 `;
 
 export const QuestionsDetailVoteButtonElement = styled.button`
@@ -37,9 +19,10 @@ export const QuestionsDetailVoteButtonElement = styled.button`
   background-color: ${lightGray};
   font-size: 16px;
   transition: background-color 250ms, box-shadow 250ms;
-  animation: fadeIn 750ms ease;
+  animation: 500ms fadeIn ease 0s;
   ${({ buttonFadingOut }) =>
-    buttonFadingOut && `animation: fadeOut 250ms; pointer-events: none;`}
+    buttonFadingOut &&
+    `animation: 250ms fadeOut ease 0s; pointer-events: none;`}
   &:hover {
     background-color: ${white};
   }

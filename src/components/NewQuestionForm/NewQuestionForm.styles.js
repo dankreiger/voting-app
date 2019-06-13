@@ -11,7 +11,7 @@ export const NewQuestionFormInputsContainer = styled.div`
   margin: 0 auto;
   margin-top: 80px;
   &.errorAnimation {
-    animation: errorShake 250ms forwards ease-in-out;
+    animation: 250ms errorShake ease-in-out 0s forwards;
   }
 `;
 
