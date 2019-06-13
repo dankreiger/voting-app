@@ -40,7 +40,7 @@ class NewQuestionForm extends Component {
 
     const choicesPostData = {
       question,
-      choices: choices.reverse() // keep order consistent with user input
+      choices: choices
     };
 
     this.setState({ submissionInProgress: true }, async () => {
