@@ -10,9 +10,10 @@ script:
 deploy:
   provider: surge
   skip_cleanup: true
-  domain: lieblingsrestaurant.surge.sh
+  domain: voting-app-123.surge.sh
   project: ./build/
 after_success:
+  - echo '*' > ./build/CORS
   - surge --project ./build --domain voting-app-123.surge.sh
 on:
   branch: master
